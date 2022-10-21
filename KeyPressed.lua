@@ -2,7 +2,10 @@
 local enabled = true
 
 -- https://www.wowhead.com/icon=450908/misc-arrowright
-local iconTexture = "450908"
+local iconArrowRight = "450908"
+
+-- https://www.wowhead.com/icon=450905/misc-arrowdown
+local iconArrowDown = "450905"
 
 local KeyPressedFrame = CreateFrame("Frame", "KeyPressedFrame", UIParent)
 KeyPressedFrame:SetSize(32, 32)
@@ -13,27 +16,41 @@ KeyPressedFrame:Show()
 
 local shift = KeyPressedFrame:CreateTexture()
 shift:SetSize(32, 32)
-shift:SetTexture(iconTexture)
-shift:SetPoint("BOTTOMRIGHT", MainMenuBar.EndCaps, "BOTTOMLEFT", -5, 112)
+shift:SetTexture(iconArrowRight)
+shift:SetPoint("BOTTOMRIGHT", MultiBarBottomRight, "BOTTOMLEFT", -5, 8)
 shift:Hide()
 
 local ctrl = KeyPressedFrame:CreateTexture()
 ctrl:SetSize(32, 32)
-ctrl:SetTexture(iconTexture)
-ctrl:SetPoint("BOTTOMRIGHT", MainMenuBar.EndCaps, "BOTTOMLEFT", -5, 64)
+ctrl:SetTexture(iconArrowRight)
+ctrl:SetPoint("BOTTOMRIGHT", MultiBarBottomLeft, "BOTTOMLEFT", -5, 8)
 ctrl:Hide()
 
 local alt = KeyPressedFrame:CreateTexture()
 alt:SetSize(32, 32)
-alt:SetTexture(iconTexture)
-alt:SetPoint("BOTTOMRIGHT", MainMenuBar.EndCaps, "BOTTOMLEFT", -5, 160)
+alt:SetTexture(iconArrowRight)
+alt:SetPoint("BOTTOMRIGHT", MultiBar5, "BOTTOMLEFT", -5, 8)
 alt:Hide()
+
+local ctrlAlt = KeyPressedFrame:CreateTexture()
+ctrlAlt:SetSize(32, 32)
+ctrlAlt:SetTexture(iconArrowDown)
+ctrlAlt:SetPoint("BOTTOMRIGHT", MultiBarRight, "TOP", 16, 5)
+ctrlAlt:Hide()
+
+local altShift = KeyPressedFrame:CreateTexture()
+altShift:SetSize(32, 32)
+altShift:SetTexture(iconArrowDown)
+altShift:SetPoint("BOTTOMRIGHT", MultiBarLeft, "TOP", 16, 5)
+altShift:Hide()
 
 -- Hide all arrows
 local function hideArrows ()
     shift:Hide()
     ctrl:Hide()
     alt:Hide()
+    ctrlAlt:Hide()
+    altShift:Hide()
 end
 
 
@@ -41,6 +58,17 @@ end
 KeyPressedFrame:SetScript("OnUpdate", function()
     if (enabled and IsModifierKeyDown()) then
         hideArrows()
+        if (IsControlKeyDown() and IsAltKeyDown()) then
+            ctrlAlt:Show()
+            return
+        end
+        if (IsAltKeyDown() and IsShiftKeyDown()) then
+            altShift:Show()
+            return
+        end
+        if (IsControlKeyDown() and IsShiftKeyDown()) then
+            -- do something here
+        end
         if (IsControlKeyDown()) then
             ctrl:Show()
         end
@@ -60,7 +88,7 @@ end)
 -- /kpenable true
 -- /kpenable false
 
-SLASH_KPENABLE1= "/kpenable"
+SLASH_KPENABLE1 = "/kpenable"
 SlashCmdList["KPENABLE"] = function(msg)
    if (msg == "on") then
     enabled = true

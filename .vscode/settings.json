@@ -1,6 +1,11 @@
 {
     "Lua.diagnostics.globals": [
         "MainMenuBar",
-        "SlashCmdList"
+        "SlashCmdList",
+        "MultiBarBottomRight",
+        "MultiBarBottomLeft",
+        "MultiBar5",
+        "MultiBarLeft",
+        "MultiBarRight"
     ]
 }
